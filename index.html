@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-MBA Preparation Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .task-item:hover {
+            background-color: #f0f4f8;
+        }
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        @media print {
+            .print-button {
+                display: none;
+            }
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header Section -->
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-bold text-indigo-800 mb-2">Pre-MBA Preparation Tracker</h1>
+            <p class="text-lg text-gray-600 mb-6">Track your progress for NMIMS Bengaluru MBA Program - June 2025</p>
+            <div class="flex justify-center mb-6">
+                <button id="reset-progress" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg mr-4">
+                    <i class="fas fa-trash-alt mr-2"></i>Reset Progress
+                </button>
+                <button id="save-progress" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg print-button">
+                    <i class="fas fa-save mr-2"></i>Save Progress
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section class="mb-12 bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6">Progress Dashboard</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Technical Skills Progress -->
+                <div class="bg-blue-50 rounded-lg p-4 shadow">
+                    <h3 class="text-xl font-semibold mb-2 text-blue-700">Technical Skills</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="technical-progress" class="bg-blue-600 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-2"><span id="technical-percentage">0%</span> completed</p>
+                </div>
+                <!-- Business Framework Progress -->
+                <div class="bg-purple-50 rounded-lg p-4 shadow">
+                    <h3 class="text-xl font-semibold mb-2 text-purple-700">Business Frameworks</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="framework-progress" class="bg-purple-600 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-2"><span id="framework-percentage">0%</span> completed</p>
+                </div>
+                <!-- Soft Skills Progress -->
+                <div class="bg-green-50 rounded-lg p-4 shadow">
+                    <h3 class="text-xl font-semibold mb-2 text-green-700">Soft Skills</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="soft-progress" class="bg-green-600 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-2"><span id="soft-percentage">0%</span> completed</p>
+                </div>
+                <!-- Networking Progress -->
+                <div class="bg-yellow-50 rounded-lg p-4 shadow">
+                    <h3 class="text-xl font-semibold mb-2 text-yellow-700">Networking & Branding</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="networking-progress" class="bg-yellow-600 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-2"><span id="networking-percentage">0%</span> completed</p>
+                </div>
+                <!-- Mindset Shift Progress -->
+                <div class="bg-red-50 rounded-lg p-4 shadow">
+                    <h3 class="text-xl font-semibold mb-2 text-red-700">Mindset Shift</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="mindset-progress" class="bg-red-600 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-2"><span id="mindset-percentage">0%</span> completed</p>
+                </div>
+                <!-- Overall Progress -->
+                <div class="bg-indigo-50 rounded-lg p-4 shadow">
+                    <h3 class="text-xl font-semibold mb-2 text-indigo-700">Overall Progress</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="overall-progress" class="bg-indigo-600 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-2"><span id="overall-percentage">0%</span> completed</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Program Overview -->
+        <section class="mb-12 bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-4">NMIMS Bengaluru: Program Overview</h2>
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-700">Key Program Information</h3>
+                <ul class="list-disc pl-6 text-gray-600">
+                    <li class="mb-1">Two-year full-time program with industry internships</li>
+                    <li class="mb-1">Specializations: Finance, Marketing, Operations & HR, and Analytics</li>
+                    <li class="mb-1">Renowned for industry-aligned curriculum and practical approach</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-3 text-gray-700">Placement Statistics</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-2 px-4 border-b text-left">Metric</th>
+                                <th class="py-2 px-4 border-b text-left">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-2 px-4 border-b">Highest Package</td>
+                                <td class="py-2 px-4 border-b">₹43.25 LPA</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b">Average Package</td>
+                                <td class="py-2 px-4 border-b">₹14.11 LPA</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b">Median Package</td>
+                                <td class="py-2 px-4 border-b">₹13.44 LPA</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b">Placement Rate</td>
+                                <td class="py-2 px-4 border-b">100%</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b">Total Recruiters</td>
+                                <td class="py-2 px-4 border-b">56 (including 31 new associations)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Tabs -->
+        <div class="mb-10">
+            <div class="flex flex-wrap border-b border-gray-200">
+                <button class="timeline-tab px-6 py-3 font-semibold text-gray-700 hover:text-indigo-600 border-b-2 border-transparent hover:border-indigo-600 active" data-target="all">All Tasks</button>
+                <button class="timeline-tab px-6 py-3 font-semibold text-gray-700 hover:text-indigo-600 border-b-2 border-transparent hover:border-indigo-600" data-target="april">April 2025</button>
+                <button class="timeline-tab px-6 py-3 font-semibold text-gray-700 hover:text-indigo-600 border-b-2 border-transparent hover:border-indigo-600" data-target="may">May 2025</button>
+                <button class="timeline-tab px-6 py-3 font-semibold text-gray-700 hover:text-indigo-600 border-b-2 border-transparent hover:border-indigo-600" data-target="lastweek">Last Week</button>
+            </div>
+        </div>
+
+        <!-- Technical Skills Section -->
+        <section id="technical-skills" class="mb-12 timeline-section" data-timeline="all">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-blue-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Technical Skills</h2>
+                </div>
+                <div class="p-6">
+                    <!-- Microsoft Excel Proficiency -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-3 text-blue-700">Microsoft Excel Proficiency (High Priority)</h3>
+                        <p class="mb-4 text-gray-600">Excel is the most critical technical skill mentioned across all sources and is formally taught during NMIMS orientation.</p>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Skills to Master:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="excel-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="excel-1" class="text-gray-700">Basic formatting and calculations</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="excel-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="excel-2" class="text-gray-700">Advanced functions (VLOOKUP, INDEX-MATCH, IF statements)</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="excel-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="excel-3" class="text-gray-700">Pivot tables and data visualization</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="excel-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="excel-4" class="text-gray-700">Financial modeling basics</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="excel-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="excel-5" class="text-gray-700">Macros and VBA (if time permits)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                            <ul class="space-y-2 text-blue-600">
+                                <li>
+                                    <a href="https://www.youtube.com/user/trumpexcel" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Trump Excel YouTube Channel - Comprehensive Excel tutorials (Free)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.wallstreetprep.com/knowledge/excel-crash-course/" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Wall Street Prep - Excel Crash Course - Financial modeling focus (Paid)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.udemy.com/course/microsoft-excel-2013-from-beginner-to-advanced-and-beyond/" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Udemy Excel from Beginner to Advanced (Paid)
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Financial Literacy & Accounting Basics -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-3 text-blue-700">Financial Literacy & Accounting Basics (High Priority)</h3>
+                        <p class="mb-4 text-gray-600">Understanding financial statements is crucial for all business professionals. This is especially important for biotechnology graduates who may not have prior exposure to financial concepts.</p>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Skills to Master:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="finance-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="finance-1" class="text-gray-700">Reading balance sheets, income statements, and cash flow statements</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="finance-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="finance-2" class="text-gray-700">Understanding business ratios and financial metrics</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="finance-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="finance-3" class="text-gray-700">Basics of financial modeling</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="finance-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="finance-4" class="text-gray-700">Business valuation concepts</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                            <ul class="space-y-2 text-blue-600">
+                                <li>
+                                    <a href="https://www.khanacademy.org/economics-finance-domain/core-finance" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Khan Academy's Accounting & Finance courses - Free foundational courses
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.coursera.org/learn/uva-darden-financial-accounting" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        "Financial Accounting Fundamentals" - Coursera course by University of Virginia
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.amazon.com/Financial-Intelligence-Revised-Managers-Knowing/dp/1422144119" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        "Financial Intelligence for Entrepreneurs" - Book by Karen Berman and Joe Knight
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Analysis & Business Analytics -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-700">Data Analysis & Business Analytics (Medium Priority)</h3>
+                        <p class="mb-4 text-gray-600">Data-driven decision making is essential in today's business environment. As a biotechnology graduate, you can leverage your existing analytical skills while learning business applications.</p>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Skills to Master:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="data-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="data-1" class="text-gray-700">Basic statistical concepts (mean, median, standard deviation)</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="data-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="data-2" class="text-gray-700">Data visualization principles</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="data-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="data-3" class="text-gray-700">Introduction to business intelligence tools (Tableau/Power BI)</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="data-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-blue-600 rounded" data-category="technical">
+                                    <label for="data-4" class="text-gray-700">Basic understanding of SQL</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                            <ul class="space-y-2 text-blue-600">
+                                <li>
+                                    <a href="https://www.coursera.org/learn/wharton-quantitative-modeling" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        "Pre-MBA Quantitative Skills: Data Analytics" - Rice University on Coursera
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Google's Data Analytics Certificate - Comprehensive introduction to data analysis
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://public.tableau.com/en-us/s/" target="_blank" class="flex items-center hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Tableau Public - Free version of Tableau for practice and portfolio building
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Framework Understanding -->
+        <section id="business-frameworks" class="mb-12 timeline-section" data-timeline="all">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-purple-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Business Framework Understanding</h2>
+                </div>
+                <div class="p-6">
+                    <p class="mb-6 text-gray-600">Business uses specific frameworks to analyze situations that differ from scientific methodologies.</p>
+                    
+                    <div class="ml-4 mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-2">Key Frameworks to Learn:</h4>
+                        <div class="space-y-2">
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="framework-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-purple-600 rounded" data-category="framework">
+                                <label for="framework-1" class="text-gray-700">SWOT Analysis: Strengths, Weaknesses, Opportunities, and Threats</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="framework-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-purple-600 rounded" data-category="framework">
+                                <label for="framework-2" class="text-gray-700">Porter's Five Forces: Competitive industry analysis</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="framework-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-purple-600 rounded" data-category="framework">
+                                <label for="framework-3" class="text-gray-700">PESTEL Analysis: Political, Economic, Social, Technological, Environmental, Legal factors</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="framework-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-purple-600 rounded" data-category="framework">
+                                <label for="framework-4" class="text-gray-700">Business Model Canvas: How companies create, deliver, and capture value</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="framework-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-purple-600 rounded" data-category="framework">
+                                <label for="framework-5" class="text-gray-700">BCG Matrix: Product portfolio analysis</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="framework-6" class="task-checkbox mr-3 mt-1 h-5 w-5 text-purple-600 rounded" data-category="framework">
+                                <label for="framework-6" class="text-gray-700">Ansoff Matrix: Growth strategies</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                        <ul class="space-y-2 text-purple-600">
+                            <li>
+                                <a href="https://www.edx.org/course/mba-fundamentals" target="_blank" class="flex items-center hover:text-purple-800">
+                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                    "MBA Fundamentals" - edX course covering essential business frameworks
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.bcg.com/publications/collections/strategy-essentials" target="_blank" class="flex items-center hover:text-purple-800">
+                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                    "Strategy Essentials" - Free resources by Boston Consulting Group
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://hbr.org/topic/strategy" target="_blank" class="flex items-center hover:text-purple-800">
+                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                    Harvard Business Review Strategy Section - Quality articles on strategic frameworks
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Soft Skills Section -->
+        <section id="soft-skills" class="mb-12 timeline-section" data-timeline="all">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-green-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Critical Soft Skills</h2>
+                </div>
+                <div class="p-6">
+                    <!-- Business Communication Skills -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-3 text-green-700">Business Communication Skills (High Priority)</h3>
+                        <p class="mb-4 text-gray-600">Communication is consistently ranked as the most important skill for MBA graduates. NMIMS specifically offers "Communication and soft skills courses across the program."</p>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Scientific vs Business Communication:</h4>
+                            <div class="overflow-x-auto mb-6">
+                                <table class="min-w-full bg-white">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="py-2 px-4 border-b text-left">Scientific Communication</th>
+                                            <th class="py-2 px-4 border-b text-left">Business Communication</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">Detailed and methodical</td>
+                                            <td class="py-2 px-4 border-b">Concise and impactful</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">Focus on procedure</td>
+                                            <td class="py-2 px-4 border-b">Focus on outcomes and recommendations</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">Technical terminology</td>
+                                            <td class="py-2 px-4 border-b">Accessible language</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">Comprehensive data inclusion</td>
+                                            <td class="py-2 px-4 border-b">Executive summaries with key points</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <h4 class="font-semibold text-gray-700 mb-2">Skills to Master:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="comm-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="comm-1" class="text-gray-700">Verbal clarity and executive presence</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="comm-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="comm-2" class="text-gray-700">Public speaking and presentation skills</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="comm-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="comm-3" class="text-gray-700">Business writing (emails, reports, proposals)</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="comm-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="comm-4" class="text-gray-700">Active listening and feedback skills</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="comm-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="comm-5" class="text-gray-700">Non-verbal communication</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                            <ul class="space-y-2 text-green-600">
+                                <li>
+                                    <a href="https://www.toastmasters.org/find-a-club" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Toastmasters International - Join a local chapter for presentation practice
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://hbr.org/topic/communication" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Harvard Business Review articles on communication - Quality insights on business communication
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.udemy.com/course/business-communication-skills-business-writing-grammar/" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        "Business Writing & Grammar" on Udemy (which you've completed)
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Case Study Analysis -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-3 text-green-700">Case Study Analysis (High Priority)</h3>
+                        <p class="mb-4 text-gray-600">Case studies are fundamental to MBA education and are often used in placement interviews, especially for consulting and strategy roles.</p>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Skills to Master:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="case-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="case-1" class="text-gray-700">Problem-solving frameworks (MECE, Issue Trees)</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="case-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="case-2" class="text-gray-700">Business problem structuring</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="case-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="case-3" class="text-gray-700">Data-based decision making</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="case-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="case-4" class="text-gray-700">Presentation of recommendations</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="case-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="case-5" class="text-gray-700">Handling ambiguity and incomplete information</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                            <ul class="space-y-2 text-green-600">
+                                <li>
+                                    <a href="https://www.caseinterview.com/case-interview-resources" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Victor Cheng's case interview resources - Industry standard for case preparation
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://store.hbr.org/case-studies/" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        Harvard Business Review case studies - Practice with real business scenarios
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.mckinsey.com/careers/interviewing" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        McKinsey Case Interview Preparation - Resources from a top consulting firm
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Leadership & Team Collaboration -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-green-700">Leadership & Team Collaboration (Medium Priority)</h3>
+                        <p class="mb-4 text-gray-600">Leadership skills are critical for MBA success and future career growth.</p>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Skills to Master:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="lead-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="lead-1" class="text-gray-700">Team dynamics and group facilitation</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="lead-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="lead-2" class="text-gray-700">Conflict resolution and negotiation</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="lead-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="lead-3" class="text-gray-700">Delegation and project management</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="lead-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="lead-4" class="text-gray-700">Emotional intelligence and empathy</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="lead-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-green-600 rounded" data-category="soft">
+                                    <label for="lead-5" class="text-gray-700">Cross-functional collaboration</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                            <ul class="space-y-2 text-green-600">
+                                <li>
+                                    <a href="https://www.amazon.com/How-Win-Friends-Influence-People/dp/0671027034" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        "How to Win Friends and Influence People" by Dale Carnegie - Classic on interpersonal skills
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/learning/topics/leadership-and-management" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        LinkedIn Learning courses on leadership - Practical modules on team management
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.coursera.org/learn/emotional-intelligence-leadership" target="_blank" class="flex items-center hover:text-green-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        "Emotional Intelligence in Leadership" on Coursera - Essential for team management
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Networking & Professional Branding Section -->
+        <section id="networking" class="mb-12 timeline-section" data-timeline="all">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-yellow-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Professional Branding & Networking</h2>
+                </div>
+                <div class="p-6">
+                    <!-- LinkedIn Profile Optimization -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-3 text-yellow-700">LinkedIn Profile Optimization</h3>
+                        <p class="mb-4 text-gray-600">According to experts, an excellent LinkedIn profile for MBA students should include:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Key Profile Elements</h4>
+                                <ul class="space-y-2 pl-5 list-disc text-gray-700">
+                                    <li>Professional headline: "Biotechnology Professional | Research Specialist | MBA Candidate at NMIMS Bengaluru 2025"</li>
+                                    <li>Professional photo: High-quality headshot with professional attire</li>
+                                    <li>Customized URL: linkedin.com/in/smritiharsh (or similar)</li>
+                                    <li>Featured section: Highlight key projects and accomplishments</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Content Best Practices</h4>
+                                <ul class="space-y-2 pl-5 list-disc text-gray-700">
+                                    <li>Compelling summary: Write in first person, be personable yet professional</li>
+                                    <li>Quantified achievements: Use numbers and metrics to show impact</li>
+                                    <li>Action verbs: Use words like managed, led, researched, analyzed</li>
+                                    <li>Skills section: Focus on relevant skills that bridge biotechnology and business</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Tasks to Complete:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="linkedin-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="linkedin-1" class="text-gray-700">Upload professional photo</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="linkedin-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="linkedin-2" class="text-gray-700">Create compelling professional headline</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="linkedin-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="linkedin-3" class="text-gray-700">Write engaging summary highlighting biotechnology background and business aspirations</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="linkedin-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="linkedin-4" class="text-gray-700">Add skills that bridge biotechnology and business</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="linkedin-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="linkedin-5" class="text-gray-700">Rewrite experience descriptions using action verbs and quantifiable achievements</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                            <ul class="space-y-2 text-yellow-600">
+                                <li>
+                                    <a href="https://www.linkedin.com/help/linkedin/answer/a546022/create-a-good-linkedin-profile" target="_blank" class="flex items-center hover:text-yellow-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        LinkedIn's own guide to profile optimization - Official best practices
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/learning/learning-linkedin-for-students" target="_blank" class="flex items-center hover:text-yellow-800">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        LinkedIn Learning course on profile building - Structured approach to optimization
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- CV Enhancement Strategy -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-3 text-yellow-700">CV Enhancement Strategy</h3>
+                        <p class="mb-4 text-gray-600">Your CV should effectively bridge your biotechnology background with your business aspirations:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Structure & Format</h4>
+                                <ul class="space-y-2 pl-5 list-disc text-gray-700">
+                                    <li>One-page format: Focus on most relevant experiences</li>
+                                    <li>Clear sections: Education, Experience, Skills, Achievements</li>
+                                    <li>Professional formatting: Clean, consistent design with strategic white space</li>
+                                    <li>Scannable layout: Easy for recruiters to quickly identify key information</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Content Strategies</h4>
+                                <ul class="space-y-2 pl-5 list-disc text-gray-700">
+                                    <li>Transferable skills highlight: Show how research skills apply to business</li>
+                                    <li>Quantify achievements: "Conducted research resulting in identification of X new species"</li>
+                                    <li>Action verbs: Led, analyzed, developed, implemented</li>
+                                    <li>Business relevance: Frame achievements in terms of efficiency, innovation, or impact</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Tasks to Complete:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="cv-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="cv-1" class="text-gray-700">Update CV format to one-page business style</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="cv-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="cv-2" class="text-gray-700">Rewrite experience bullets emphasizing transferable skills</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="cv-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="cv-3" class="text-gray-700">Quantify achievements with specific metrics</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="cv-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="cv-4" class="text-gray-700">Add skills section highlighting both technical and business capabilities</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="cv-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="cv-5" class="text-gray-700">Have CV reviewed by 2-3 business professionals</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Networking Strategy -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-yellow-700">Networking Strategy</h3>
+                        <p class="mb-4 text-gray-600">Effective networking is crucial for MBA success and future career opportunities:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Pre-MBA Connections</h4>
+                                <ul class="space-y-2 pl-5 list-disc text-gray-700">
+                                    <li>Connect with current NMIMS students</li>
+                                    <li>Reach out to alumni</li>
+                                    <li>Join NMIMS social media groups</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Industry Bridge-Building</h4>
+                                <ul class="space-y-2 pl-5 list-disc text-gray-700">
+                                    <li>Join biotech-business groups</li>
+                                    <li>Attend industry webinars</li>
+                                    <li>Connect with professionals in target roles</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Digital Presence</h4>
+                                <ul class="space-y-2 pl-5 list-disc text-gray-700">
+                                    <li>Engage professionally on LinkedIn</li>
+                                    <li>Comment on industry articles</li>
+                                    <li>Share relevant content</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4 mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-2">Tasks to Complete:</h4>
+                            <div class="space-y-2">
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="net-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="net-1" class="text-gray-700">Connect with 10+ current NMIMS students or alumni</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="net-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="net-2" class="text-gray-700">Join 3+ LinkedIn groups related to business, biotechnology, or MBA topics</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="net-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="net-3" class="text-gray-700">Attend 2-3 industry webinars or virtual events</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="net-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="net-4" class="text-gray-700">Conduct 3-5 informational interviews with professionals in target fields</label>
+                                </div>
+                                <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                    <input type="checkbox" id="net-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-yellow-600 rounded" data-category="networking">
+                                    <label for="net-5" class="text-gray-700">Post or engage with LinkedIn content at least once per week</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mindset Shift Section -->
+        <section id="mindset-shift" class="mb-12 timeline-section" data-timeline="all">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-red-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Mindset Shift: From Scientific to Business Thinking</h2>
+                </div>
+                <div class="p-6">
+                    <p class="mb-6 text-gray-600">Transitioning from biotechnology to business requires a fundamental shift in thinking patterns:</p>
+                    
+                    <div class="overflow-x-auto mb-8">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 border-b text-left">Scientific Mindset</th>
+                                    <th class="py-2 px-4 border-b text-left">Business Mindset</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">Hypothesis-driven thinking</td>
+                                    <td class="py-2 px-4 border-b">Opportunity-driven thinking</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">Focus on experimental validation</td>
+                                    <td class="py-2 px-4 border-b">Focus on value creation</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">Detailed methodologies</td>
+                                    <td class="py-2 px-4 border-b">Results-oriented approaches</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">Long time horizons</td>
+                                    <td class="py-2 px-4 border-b">Rapid decision cycles</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">Publication and peer review</td>
+                                    <td class="py-2 px-4 border-b">Implementation and ROI</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b">Technical precision</td>
+                                    <td class="py-2 px-4 border-b">Strategic clarity</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mb-3 text-red-700">Key Shifts to Practice Daily:</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">Commercial Awareness</h4>
+                            <p class="text-gray-600">Follow business news and understand how companies make decisions</p>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">Value Framework</h4>
+                            <p class="text-gray-600">Ask "What's the business value?" rather than "What's scientifically interesting?"</p>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">Risk-Reward Analysis</h4>
+                            <p class="text-gray-600">Shift from certainty to probability and opportunity costs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-4 mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-2">Tasks to Complete:</h4>
+                        <div class="space-y-2">
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mind-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-red-600 rounded" data-category="mindset">
+                                <label for="mind-1" class="text-gray-700">Subscribe to business news sources (Economic Times, Mint, Harvard Business Review)</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mind-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-red-600 rounded" data-category="mindset">
+                                <label for="mind-2" class="text-gray-700">Read at least one business case study weekly</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mind-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-red-600 rounded" data-category="mindset">
+                                <label for="mind-3" class="text-gray-700">Follow 10+ business leaders on social media</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mind-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-red-600 rounded" data-category="mindset">
+                                <label for="mind-4" class="text-gray-700">Practice framing biotechnology discoveries in terms of business impact</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mind-5" class="task-checkbox mr-3 mt-1 h-5 w-5 text-red-600 rounded" data-category="mindset">
+                                <label for="mind-5" class="text-gray-700">Write your "transition story" explaining your move from science to business</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-gray-700 mb-2">Recommended Resources:</h4>
+                        <ul class="space-y-2 text-red-600">
+                            <li>
+                                <a href="https://economictimes.indiatimes.com/" target="_blank" class="flex items-center hover:text-red-800">
+                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                    Economic Times - Leading business newspaper in India
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://hbr.org/" target="_blank" class="flex items-center hover:text-red-800">
+                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                    Harvard Business Review - High-quality business articles
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.amazon.com/Innovative-Mindset-Behaviors-Accelerate-Success/dp/1119161282" target="_blank" class="flex items-center hover:text-red-800">
+                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                    "The Innovative Mindset" by John Sweeney
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline-Based Tasks -->
+        <!-- April 2025 -->
+        <section id="april-tasks" class="mb-12 timeline-section hidden" data-timeline="april">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">April 2025 (Current Month)</h2>
+                </div>
+                <div class="p-6">
+                    <p class="mb-6 text-gray-600">Focus: Financial Literacy & Excel</p>
+                    
+                    <div class="ml-4 mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-4">Main Objectives:</h4>
+                        <div class="space-y-2">
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="apr-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="apr-1" class="text-gray-700">Complete Excel fundamentals course (10 hours/week)</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="apr-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="apr-2" class="text-gray-700">Start Khan Academy's accounting courses</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="apr-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="apr-3" class="text-gray-700">Begin reading financial news daily (Economic Times, Mint)</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="apr-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="apr-4" class="text-gray-700">Create or update LinkedIn profile with professional photo</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-4 mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-4">Weekly Learning Goals:</h4>
+                        <div class="space-y-6">
+                            <div>
+                                <h5 class="font-semibold text-indigo-600 mb-2">Week 1: Excel basics and formatting</h5>
+                                <div class="space-y-2">
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="aprw1-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="aprw1-1" class="text-gray-700">Complete Excel basics tutorial</label>
+                                    </div>
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="aprw1-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="aprw1-2" class="text-gray-700">Practice creating basic spreadsheets with formatting</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-indigo-600 mb-2">Week 2: Advanced Excel functions</h5>
+                                <div class="space-y-2">
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="aprw2-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="aprw2-1" class="text-gray-700">Master VLOOKUP, HLOOKUP, and INDEX-MATCH functions</label>
+                                    </div>
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="aprw2-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="aprw2-2" class="text-gray-700">Complete IF statements and logical functions</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-indigo-600 mb-2">Week 3: Introduction to financial statements</h5>
+                                <div class="space-y-2">
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="aprw3-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="aprw3-1" class="text-gray-700">Complete Khan Academy's introduction to financial statements</label>
+                                    </div>
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="aprw3-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="aprw3-2" class="text-gray-700">Learn to read balance sheets and income statements</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-indigo-600 mb-2">Week 4: Basic financial ratio analysis</h5>
+                                <div class="space-y-2">
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="aprw4-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="aprw4-1" class="text-gray-700">Learn key financial ratios and metrics</label>
+                                    </div>
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="aprw4-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="aprw4-2" class="text-gray-700">Practice calculating and interpreting financial ratios</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-gray-700 mb-4">Networking Tasks:</h4>
+                        <div class="space-y-2">
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="aprn-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="aprn-1" class="text-gray-700">Join 2-3 LinkedIn groups related to MBA and business</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="aprn-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="aprn-2" class="text-gray-700">Connect with 5 current NMIMS students or alumni</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="aprn-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="aprn-3" class="text-gray-700">Research and follow 10 business leaders in industries of interest</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- May 2025 -->
+        <section id="may-tasks" class="mb-12 timeline-section hidden" data-timeline="may">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">May 2025</h2>
+                </div>
+                <div class="p-6">
+                    <p class="mb-6 text-gray-600">Focus: Business Frameworks & Communication</p>
+                    
+                    <div class="ml-4 mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-4">Main Objectives:</h4>
+                        <div class="space-y-2">
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="may-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="may-1" class="text-gray-700">Learn 3-5 key business frameworks (SWOT, Porter's Five Forces, etc.)</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="may-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="may-2" class="text-gray-700">Practice case study analysis (2-3 cases per week)</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="may-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="may-3" class="text-gray-700">Develop business communication skills (presentations, emails)</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="may-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="may-4" class="text-gray-700">Complete CV and LinkedIn profile optimization</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-4 mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-4">Weekly Learning Goals:</h4>
+                        <div class="space-y-6">
+                            <div>
+                                <h5 class="font-semibold text-indigo-600 mb-2">Week 1: Business framework fundamentals</h5>
+                                <div class="space-y-2">
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="mayw1-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="mayw1-1" class="text-gray-700">Master SWOT and PESTEL analysis frameworks</label>
+                                    </div>
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="mayw1-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="mayw1-2" class="text-gray-700">Apply frameworks to a real company analysis</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-indigo-600 mb-2">Week 2: Basic case study methodology</h5>
+                                <div class="space-y-2">
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="mayw2-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="mayw2-1" class="text-gray-700">Learn case study analysis methodology</label>
+                                    </div>
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="mayw2-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="mayw2-2" class="text-gray-700">Complete analysis of 2 business cases</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-indigo-600 mb-2">Week 3: Business presentation skills</h5>
+                                <div class="space-y-2">
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="mayw3-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="mayw3-1" class="text-gray-700">Learn principles of effective business presentations</label>
+                                    </div>
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="mayw3-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="mayw3-2" class="text-gray-700">Create and practice a business presentation</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-indigo-600 mb-2">Week 4: Business writing and email etiquette</h5>
+                                <div class="space-y-2">
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="mayw4-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="mayw4-1" class="text-gray-700">Learn business email etiquette and formats</label>
+                                    </div>
+                                    <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                        <input type="checkbox" id="mayw4-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                        <label for="mayw4-2" class="text-gray-700">Practice writing business reports and memos</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-gray-700 mb-4">Networking Tasks:</h4>
+                        <div class="space-y-2">
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mayn-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="mayn-1" class="text-gray-700">Conduct 3-5 informational interviews with MBA graduates</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mayn-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="mayn-2" class="text-gray-700">Join industry webinars or virtual events</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mayn-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="mayn-3" class="text-gray-700">Engage meaningfully on LinkedIn (comments, shares)</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="mayn-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="mayn-4" class="text-gray-700">Research companies for summer internship opportunities</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Last Week Before Program -->
+        <section id="lastweek-tasks" class="mb-12 timeline-section hidden" data-timeline="lastweek">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Last Week Before Program (May 25 - June 1)</h2>
+                </div>
+                <div class="p-6">
+                    <p class="mb-6 text-gray-600">Focus: Integration & Final Preparation</p>
+                    
+                    <div class="ml-4 mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-4">Main Objectives:</h4>
+                        <div class="space-y-2">
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="last-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="last-1" class="text-gray-700">Create a one-page "Business Knowledge Inventory" to identify remaining gaps</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="last-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="last-2" class="text-gray-700">Prepare specific questions for professors about transitioning from science</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="last-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="last-3" class="text-gray-700">Review NMIMS curriculum in detail</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="last-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="last-4" class="text-gray-700">Organize digital notes and resources for quick reference during the program</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-gray-700 mb-4">Mindset Preparation:</h4>
+                        <div class="space-y-2">
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="lastm-1" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="lastm-1" class="text-gray-700">Reflect on personal goals for the MBA program</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="lastm-2" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="lastm-2" class="text-gray-700">Review and refine your "why MBA" story</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="lastm-3" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="lastm-3" class="text-gray-700">Practice introducing yourself in business settings</label>
+                            </div>
+                            <div class="task-item flex items-start p-3 rounded-lg transition-colors">
+                                <input type="checkbox" id="lastm-4" class="task-checkbox mr-3 mt-1 h-5 w-5 text-indigo-600 rounded" data-category="timeline">
+                                <label for="lastm-4" class="text-gray-700">Set specific objectives for the first semester</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leveraging Your Biotechnology Background -->
+        <section id="bio-background" class="mb-12 timeline-section" data-timeline="all">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-teal-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Leveraging Your Biotechnology Background</h2>
+                </div>
+                <div class="p-6">
+                    <p class="mb-6 text-gray-600">While transitioning fully to business, your scientific background offers unique advantages:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4 text-teal-700">Transferable Strengths</h3>
+                            <ul class="space-y-3 pl-5 list-disc text-gray-700">
+                                <li><span class="font-semibold">Analytical Rigor:</span> Scientists excel at data-based decision making</li>
+                                <li><span class="font-semibold">Research Skills:</span> The ability to gather and synthesize information</li>
+                                <li><span class="font-semibold">Problem-Solving:</span> Complex problem decomposition</li>
+                                <li><span class="font-semibold">Attention to Detail:</span> Thoroughness and precision</li>
+                                <li><span class="font-semibold">Technical Credibility:</span> Valuable in healthcare, pharma, and biotech consulting</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4 text-teal-700">Potential Career Directions</h3>
+                            <ul class="space-y-3 pl-5 list-disc text-gray-700">
+                                <li><span class="font-semibold">Healthcare/Pharma Management:</span> Bridge between science and business</li>
+                                <li><span class="font-semibold">Consulting:</span> Life sciences and healthcare consulting</li>
+                                <li><span class="font-semibold">Product Management:</span> Technical products with scientific applications</li>
+                                <li><span class="font-semibold">Investment Analysis:</span> Biotech and healthcare sectors</li>
+                                <li><span class="font-semibold">Entrepreneurship:</span> Science-based startups</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-teal-50 p-6 rounded-lg mb-8">
+                        <h3 class="text-xl font-semibold mb-2 text-teal-700">Position Your Background as an Advantage</h3>
+                        <p class="mb-4 text-gray-600">Consider positioning yourself not as "leaving science behind" but as "expanding your impact through business" - this narrative can be compelling to employers.</p>
+                        <div class="pl-4 border-l-4 border-teal-500 italic">
+                            "My scientific training taught me how to analyze complex problems, design rigorous testing methodologies, and draw evidence-based conclusions. In business, I'll apply these same skills to market analysis, strategic planning, and operational optimization, while adding the business acumen needed to create real-world impact."
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-teal-700">Additional Resources for Science-to-Business Transition</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Books</h4>
+                                <ul class="space-y-2 text-teal-600">
+                                    <li>
+                                        <a href="https://www.amazon.com/Innovative-Mindset-Behaviors-Accelerate-Success/dp/1119161282" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-book mr-2"></i>
+                                            "The Innovative Mindset" by John Sweeney
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.amazon.com/Science-Startup-Complete-Technology-Entrepreneurship/dp/3319308335" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-book mr-2"></i>
+                                            "From Science to Startup" by Anil Sethi
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.amazon.com/Building-Biotechnology-Biotechnology-Business-Regulations/dp/1934899291" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-book mr-2"></i>
+                                            "Building Biotechnology" by Yali Friedman
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Online Courses</h4>
+                                <ul class="space-y-2 text-teal-600">
+                                    <li>
+                                        <a href="https://www.coursera.org/learn/bioscience-cm" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-laptop mr-2"></i>
+                                            "Business Strategy for Bioscience Organizations" on Coursera
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.s2ds.org/" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-laptop mr-2"></i>
+                                            "Science to Data Science" by S2DS
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.edx.org/course/healthcare-entrepreneurship" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-laptop mr-2"></i>
+                                            "Healthcare Entrepreneurship" on edX
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Communities & Publications</h4>
+                                <ul class="space-y-2 text-teal-600">
+                                    <li>
+                                        <a href="https://www.linkedin.com/groups/12121940/" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-users mr-2"></i>
+                                            FromScientistToManager LinkedIn group
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.biopharmadive.com/" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-newspaper mr-2"></i>
+                                            BioPharma Dive (industry news)
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.nature.com/nbt/" target="_blank" class="flex items-center hover:text-teal-800">
+                                            <i class="fas fa-newspaper mr-2"></i>
+                                            Nature Biotechnology Business section
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion & Next Steps -->
+        <section id="conclusion" class="mb-12 timeline-section" data-timeline="all">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-gray-700 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Conclusion & Next Steps</h2>
+                </div>
+                <div class="p-6">
+                    <p class="mb-6 text-gray-600">Transitioning from biotechnology to business through your MBA at NMIMS Bengaluru is an exciting journey that will open new career opportunities. By systematically building business knowledge and skills before your program begins, you'll be well-positioned to excel both academically and in placements.</p>
+                    
+                    <div class="bg-blue-50 p-6 rounded-lg mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-blue-700">Immediate Next Steps (Next 7 Days)</h3>
+                        <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                            <li>Sign up for an Excel course (free or paid) and begin learning the basics</li>
+                            <li>Create or update your LinkedIn profile with a professional photo</li>
+                            <li>Start reading one business article daily (from Economic Times, Mint, or HBR)</li>
+                            <li>Begin Khan Academy's financial accounting course</li>
+                            <li>Connect with at least 5 current NMIMS students or alumni on LinkedIn</li>
+                        </ol>
+                    </div>
+                    
+                    <p class="mb-4 text-gray-600">Remember that your scientific background has equipped you with valuable analytical skills and a methodical approach to problem-solving. By adding business frameworks, financial literacy, and communication skills, you'll create a powerful combination that sets you apart from your peers.</p>
+                    
+                    <p class="text-gray-600">The goal is not to master everything before starting, but to build enough foundational knowledge to accelerate your learning once the program begins. Focus on understanding the business language, developing core technical skills like Excel, and creating a strong professional network.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Initialize task checkboxes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved progress
+            loadProgress();
+            
+            // Add event listeners to checkboxes
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    updateProgress();
+                    saveProgress();
+                });
+            });
+            
+            // Timeline tabs
+            const timelineTabs = document.querySelectorAll('.timeline-tab');
+            timelineTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    timelineTabs.forEach(t => {
+                        t.classList.remove('active', 'border-indigo-600', 'text-indigo-600');
+                        t.classList.add('border-transparent', 'text-gray-700');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active', 'border-indigo-600', 'text-indigo-600');
+                    this.classList.remove('border-transparent');
+                    
+                    // Show/hide sections based on timeline
+                    const target = this.getAttribute('data-target');
+                    const sections = document.querySelectorAll('.timeline-section');
+                    
+                    sections.forEach(section => {
+                        if (target === 'all' || section.getAttribute('data-timeline') === target) {
+                            section.classList.remove('hidden');
+                        } else {
+                            section.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+            
+            // Set up reset button
+            document.getElementById('reset-progress').addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                    resetProgress();
+                }
+            });
+            
+            // Set up save button
+            document.getElementById('save-progress').addEventListener('click', function() {
+                saveProgress();
+                alert('Progress saved successfully!');
+            });
+            
+            // Initial progress update
+            updateProgress();
+        });
+        
+        // Update progress bars
+        function updateProgress() {
+            updateCategoryProgress('technical', 'technical-progress', 'technical-percentage');
+            updateCategoryProgress('framework', 'framework-progress', 'framework-percentage');
+            updateCategoryProgress('soft', 'soft-progress', 'soft-percentage');
+            updateCategoryProgress('networking', 'networking-progress', 'networking-percentage');
+            updateCategoryProgress('mindset', 'mindset-progress', 'mindset-percentage');
+            updateOverallProgress();
+        }
+        
+        // Update progress for a specific category
+        function updateCategoryProgress(category, progressBarId, percentageId) {
+            const checkboxes = document.querySelectorAll(`.task-checkbox[data-category="${category}"]`);
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const totalCount = checkboxes.length;
+            const percentage = totalCount > 0 ? Math.round((checkedCount / totalCount) * 100) : 0;
+            
+            document.getElementById(progressBarId).style.width = `${percentage}%`;
+            document.getElementById(percentageId).textContent = `${percentage}%`;
+        }
+        
+        // Update overall progress
+        function updateOverallProgress() {
+            const allCheckboxes = document.querySelectorAll('.task-checkbox');
+            const totalChecked = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+            const totalCount = allCheckboxes.length;
+            const percentage = totalCount > 0 ? Math.round((totalChecked / totalCount) * 100) : 0;
+            
+            document.getElementById('overall-progress').style.width = `${percentage}%`;
+            document.getElementById('overall-percentage').textContent = `${percentage}%`;
+        }
+        
+        // Save progress to localStorage
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const progressData = {};
+            
+            checkboxes.forEach(checkbox => {
+                progressData[checkbox.id] = checkbox.checked;
+            });
+            
+            localStorage.setItem('mbaPrepProgress', JSON.stringify(progressData));
+        }
+        
+        // Load progress from localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('mbaPrepProgress');
+            
+            if (savedProgress) {
+                const progressData = JSON.parse(savedProgress);
+                
+                // Apply saved state to checkboxes
+                Object.keys(progressData).forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) {
+                        checkbox.checked = progressData[id];
+                    }
+                });
+            }
+        }
+        
+        // Reset all progress
+        function resetProgress() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            updateProgress();
+            localStorage.removeItem('mbaPrepProgress');
+        }
+    </script>
+</body>
+</html>
